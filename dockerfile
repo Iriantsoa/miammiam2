@@ -14,10 +14,6 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install Symfony CLI
-RUN curl -sS https://get.symfony.com/cli/installer | bash
-RUN mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
-
 # Set working directory
 WORKDIR /var/www/html
 
@@ -25,10 +21,14 @@ WORKDIR /var/www/html
 COPY . .
 
 # Install project dependencies
-RUN composer install --no-interaction --prefer-dist
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Expose the port that the app will be running on
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 755 /var/www/html
+
+# Expose the port that Railway will use
 EXPOSE 8080
 
-# Run the Symfony server or PHP's built-in server
-CMD ["php", "bin/console", "server:start", "--no-tls", "--port=8080"]
+# Start the Symfony built-in server
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
