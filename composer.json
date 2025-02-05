@@ -29,7 +29,10 @@
         "symfony/serializer": "7.2.*",
         "symfony/twig-bundle": "7.2.*",
         "symfony/validator": "7.2.*",
-        "symfony/yaml": "7.2.*"
+        "symfony/yaml": "7.2.*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.62"
@@ -65,8 +68,8 @@
     },
     "scripts": {
         "auto-scripts": {
-            "cache:clear": "bin/console cache:clear",
-            "assets:install %PUBLIC_DIR%": "bin/console assets:install"
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
